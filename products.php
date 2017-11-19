@@ -118,6 +118,13 @@ if($_SESSION['type']=='admin'){
 							    	<label>Price:</label>
 							    	<input type="text" class="form-control" id="p_price_2" name="price_edit">
 							    </div>
+							    <div class="form-group">
+							    	<label>Available:</label>
+							    	<select class="form-control" id="p_available_2" name="available_edit">
+										<option value="yes">Yes</option>
+										<option value="no">No</option>
+									</select>
+							    </div>
 					        </form>
 					      </div>
 					      <div class="modal-footer">
@@ -180,11 +187,16 @@ if($_SESSION['type']=='admin'){
 		    	
 
 		    	<p><br><br></p>
-		    	<table class="table table-striped table-bordered">
-				    <tr><th>Id</th><th>Product Name</th><th>Brand</th><th>Price(BDT)</th><th>Action</th></tr>
+		    	<table id="product_table" class="table table-striped table-bordered">
+				    <tr><th>Id</th><th>Product Name</th><th>Brand</th><th>Price(BDT)</th><?php if($_SESSION['type']!='customer') echo "<th>Available</th>"?><th>Action</th></tr>
 				    
-				    <?php 
-				    	$stmt = $conn->prepare("SELECT * FROM product");
+				    <?php
+				    	if($_SESSION['type']=='customer'){
+				    		$stmt = $conn->prepare("SELECT * FROM product where available='yes'"); // view for customer
+				    	}else{
+				    		$stmt = $conn->prepare("SELECT * FROM product");	// view for admin
+				    	}
+				    	
 						$stmt->execute();
 						$rows = $stmt->fetchAll();
 						//print_r($row);
@@ -203,11 +215,9 @@ if($_SESSION['type']=='admin'){
 								<?php 
 									}else{
 								?>
+								<td><?php echo $row['available'];?></td>
 								<td>
 									<a href="#" class="btn btn-warning product_edit">Edit</a>   
-									<a href="#" class="btn btn-danger product_delete">Delete</a>
-
-									
 								</td>
 								<?php 
 									}
@@ -218,6 +228,7 @@ if($_SESSION['type']=='admin'){
 				    ?>
 
 				</table>
+
 		    </div>
 		</div>
 	</div>
@@ -227,12 +238,15 @@ if($_SESSION['type']=='admin'){
 
 	$(document).ready(function(){
 
+		//$('#myTable').dataTable();
+
 		$("#add_product").click(function(){
 			//alert("Clicked");
 
 			var name = $('#p_name').val();
 			var brand = $('#p_brand').val();
 			var price = $('#p_price').val();
+			var available = 'yes';
 			
 
 			if(!name|| !brand || !price){
@@ -246,7 +260,7 @@ if($_SESSION['type']=='admin'){
 				$.ajax({
 					method: "POST",
 				    url : "product_add.php",
-				    data : {name:name, brand:brand, price:price},
+				    data : {name:name, brand:brand, price:price, available:available},
 				    dataType: 'html',
 				    success: function(data, textStatus, jqXHR)
 				    {
@@ -278,17 +292,18 @@ if($_SESSION['type']=='admin'){
 
 
 	    $(".product_edit").click(function(){
-	        var id = $(this).parent().prev().prev().prev().prev().text();
-	        var name = $(this).parent().prev().prev().prev().text();
-	        var brand = $(this).parent().prev().prev().text();
-	        var price = $(this).parent().prev().text();
+	        var id = $(this).parent().prev().prev().prev().prev().prev().text();
+	        var name = $(this).parent().prev().prev().prev().prev().text();
+	        var brand = $(this).parent().prev().prev().prev().text();
+	        var price = $(this).parent().prev().prev().text();
+	        var available = $(this).parent().prev().text();
 	        //alert(name+brand+price);
 
 	        $('#p_id_2').val(id);
 	        $('#p_name_2').val(name);
 	        $('#p_brand_2').val(brand);
 	        $('#p_price_2').val(price);
-
+	        $('#p_available_2').val(available);
 	        $('#myModal2').modal('show');
 		});
 
@@ -300,6 +315,7 @@ if($_SESSION['type']=='admin'){
 			var name = $('#p_name_2').val();
 			var brand = $('#p_brand_2').val();
 			var price = $('#p_price_2').val();
+			var available = $('#p_available_2').val();
 
 			if(!name|| !brand || !price){
 				// do nothing
@@ -315,7 +331,7 @@ if($_SESSION['type']=='admin'){
 				$.ajax({
 					method: "POST",
 				    url : "product_edit.php",
-				    data : {id:id, name:name, brand:brand, price:price},
+				    data : {id:id, name:name, brand:brand, price:price, available:available},
 				    dataType: 'html',
 				    success: function(data, textStatus, jqXHR)
 				    {

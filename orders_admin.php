@@ -30,6 +30,57 @@ else{
 					    <strong>Ordered Added Successfully!</strong>
 					</div>
 
+					<div id="Modal_change_status" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
+
+					    <!-- Modal for change order status-->
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title">Change order status</h4>
+					      </div>
+					      <div class="modal-body">
+					        <p>All fields are required.</p>
+					        <form>
+					        	<div class="form-group" hidden>
+							    	<label>Order Id:</label>
+							    	<input disabled type="text" class="form-control" id="o_id" name="o_id_edit">
+							    </div>
+					        	<div class="form-group">
+							    	<label>Product Ordered:</label>
+							    	<input disabled type="text" class="form-control" id="o_p_name" name="o_p_name_edit">
+							    </div>
+							    <div class="form-group">
+							    	<label>Customer Name:</label>
+							    	<input disabled type="text" class="form-control" id="o_c_name" name="o_c_name_edit">
+							    </div>
+							    <div class="form-group">
+							    	<label>Date of order:</label>
+							    	<input disabled type="text" class="form-control" id="o_date" name="o_date_edit">
+							    </div>
+							    <div class="form-group">
+							    	<label>Quantity:</label>
+							    	<input disabled type="text" class="form-control" id="o_quantity" name="o_quantity_edit">
+							    </div>
+							    <div class="form-group">
+							    	<label>Order Status:</label>
+							    	<select class="form-control" id="o_status" name="o_status_edit">
+										<option value="pending">Pending</option>
+										<option value="delivered">Delivered</option>
+										<option value="canccelled">Canccelled</option>
+									</select>
+							    </div>
+					        </form>
+					      </div>
+					      <div class="modal-footer">
+					      	<button type="button" id="edit_order_status" class="btn btn-success" data-dismiss="modal">Save</button>
+					        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					      </div>
+					    </div>
+
+					  </div>
+					</div>
+
 					<p><br></p>
 			    	<table class="table table-striped table-bordered">
 					    <tr><th>Order Id</th><th>Product Ordered</th><th>Customer Name</th><th>Date of Order</th><th>Quantity</th><th>Order Status</th><th>Action</th></tr>
@@ -73,13 +124,12 @@ else{
 									<?php 
 										if($_SESSION['type']=='customer' && $row['status']=='pending'){
 									?>
-									<td><a href="#" class="btn btn-info product_order">Cancel Order</a></td>
+									<td><a href="#" class="btn btn-info cancel_order">Cancel Order</a></td>
 									<?php 
 										}elseif($_SESSION['type']=='admin'){
 									?>
 									<td>
-										<a href="#" class="btn btn-warning product_edit">Change Status</a>   
-										<a href="#" class="btn btn-danger product_delete">Delete Order</a>
+										<a href="#" class="btn btn-warning order_edit" id="change_status">Change Status</a>   
 									</td>
 									<?php 
 										}
@@ -96,3 +146,12 @@ else{
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function(){
+		$(".order_edit").click(function(){
+			//alert("Hi");
+			$('#Modal_change_status').modal('show');
+		});
+	});
+</script>
