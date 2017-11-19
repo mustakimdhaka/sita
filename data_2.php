@@ -80,7 +80,7 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData[] = $row["brand"];
 	$nestedData[] = $row["price"];
 	$nestedData[] = $row["available"];
-	$nestedData[] = "<button>Edit</button>";
+	$nestedData[] = '<button class="edit_button btn btn-warning">Edit</button>';
 	
 	$data[] = $nestedData;
 }
