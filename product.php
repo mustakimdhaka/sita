@@ -22,7 +22,7 @@ if($_SESSION['type']=='admin'){
 			"processing": true,
 			"serverSide": true,
 			"ajax":{
-				url :"data_2.php", // json datasource
+				url :"data_product.php", // json datasource
 				type: "post",  // method  , by default get
 				
 				error: function(){  // error handling
