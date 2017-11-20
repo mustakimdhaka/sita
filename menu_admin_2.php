@@ -19,7 +19,7 @@ include("config.php");
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="admin.php">Home <span class="sr-only"></span></a></li>
-        <li><a href="products.php">Products</a></li>
+        <li><a href="product_admin.php">Products</a></li>
         <li><a href="#">Customers</a></li>
         <li><a href="orders_admin.php">Orders</a></li>
         <li><a href="#">Users</a></li>

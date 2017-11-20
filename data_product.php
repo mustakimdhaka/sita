@@ -1,18 +1,10 @@
 <?php
 /* Database connection start */
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "practice_db";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
-
+include('config_2.php');
 /* Database connection end */
-
 
 // storing  request (ie, get/post) global array to a variable  
 $requestData= $_REQUEST;
-
 
 $columns = array( 
 // datatable column index  => database column name
@@ -20,14 +12,12 @@ $columns = array(
 	1 =>'name',
 	2=> 'brand',
 	3=> 'price',
-	4=> 'available'
+	
 );
 
 
-
-
 // getting total number records without any search
-$sql = "SELECT id, name, brand, price, available ";
+$sql = "SELECT id, name, brand, price ";
 $sql.=" FROM product";
 $query=mysqli_query($conn, $sql) or die("employee-grid-data.php: get employees");
 $totalData = mysqli_num_rows($query);
@@ -36,39 +26,30 @@ $totalFiltered = $totalData;  // when there is no search parameter then total nu
 
 
 
-$sql = "SELECT id, name, brand, price, available ";
-$sql.=" FROM product WHERE 1 = 1";
+$sql = "SELECT id, name, brand, price ";
+$sql.=" FROM product WHERE available='yes'";
 
 // getting records as per search parameters
-if( !empty($requestData['columns'][0]['search']['value']) ){   //name
-	$sql.=" AND id LIKE '".$requestData['columns'][0]['search']['value']."%' ";
+if( !empty($requestData['columns'][0]['search']['value']) ){   
+	$sql.=" AND id LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
 }
-if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-	$sql.=" AND name LIKE '".$requestData['columns'][1]['search']['value']."%' ";
+if( !empty($requestData['columns'][1]['search']['value']) ){  
+	$sql.=" AND name LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
 }
-if( !empty($requestData['columns'][2]['search']['value']) ){  //salary
-	$sql.=" AND brand LIKE '".$requestData['columns'][2]['search']['value']."%' ";
+if( !empty($requestData['columns'][2]['search']['value']) ){  
+	$sql.=" AND brand LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
 }
-if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-	$sql.=" AND price LIKE '".$requestData['columns'][3]['search']['value']."%' ";
+if( !empty($requestData['columns'][3]['search']['value']) ){  
+	$sql.=" AND price LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
 }
-if( !empty($requestData['columns'][4]['search']['value']) ){  //salary
-	$sql.=" AND available LIKE '".$requestData['columns'][4]['search']['value']."%' ";
-}
-// if( !empty($requestData['columns'][2]['search']['value']) ){ //age
-	// $rangeArray = explode("-",$requestData['columns'][2]['search']['value']);
-	// $minRange = $rangeArray[0];
-	// $maxRange = $rangeArray[1];
-	// $sql.=" AND ( employee_age >= '".$minRange."' AND  employee_age <= '".$maxRange."' ) ";
-// }
+
+
 $query=mysqli_query($conn, $sql) or die("employee-grid-data.php: get employees");
 $totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result.
 	
 $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";  // adding length
 
 $query=mysqli_query($conn, $sql) or die("employee-grid-data.php: get employees");
-
-	
 
 
 $data = array();
@@ -79,8 +60,7 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData[] = $row["name"];
 	$nestedData[] = $row["brand"];
 	$nestedData[] = $row["price"];
-	$nestedData[] = $row["available"];
-	$nestedData[] = '<button class="edit_button btn btn-warning">Edit</button>';
+	$nestedData[] = '<button class="order_product btn btn-info">Order</button>';
 	
 	$data[] = $nestedData;
 }

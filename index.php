@@ -19,7 +19,7 @@ include("menu_customer.php");
 	<div class="row">
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		    	<h3 class="panel-title">Customer Portal</h3>
+		    	<h3 class="panel-title"><?php if($_SESSION['type']=='admin') echo "Admin Portal"; else echo "Customer Portal"?></h3>
 		    </div>
 		    <div class="panel-body">
 		    	Welcome <?php echo $_SESSION['username'];?>! You have Succesfully logged in... 
@@ -27,3 +27,5 @@ include("menu_customer.php");
 		</div>
 	</div>
 </div>
+
+<?php include('footer.php');?>
