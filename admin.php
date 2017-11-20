@@ -27,3 +27,5 @@ include("menu_admin_2.php");
 		</div>
 	</div>
 </div>
+
+<?php include('footer.php');?>

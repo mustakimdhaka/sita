@@ -12,12 +12,12 @@ $columns = array(
 	1 =>'name',
 	2=> 'brand',
 	3=> 'price',
-	
+	4 => 'available',
 );
 
 
 // getting total number records without any search
-$sql = "SELECT id, name, brand, price ";
+$sql = "SELECT id, name, brand, price, available ";
 $sql.=" FROM product";
 $query=mysqli_query($conn, $sql) or die("employee-grid-data.php: get employees");
 $totalData = mysqli_num_rows($query);
@@ -26,8 +26,8 @@ $totalFiltered = $totalData;  // when there is no search parameter then total nu
 
 
 
-$sql = "SELECT id, name, brand, price ";
-$sql.=" FROM product WHERE available='yes'";
+$sql = "SELECT id, name, brand, price, available ";
+$sql.=" FROM product WHERE 1=1 ";
 
 // getting records as per search parameters
 if( !empty($requestData['columns'][0]['search']['value']) ){   
@@ -41,6 +41,9 @@ if( !empty($requestData['columns'][2]['search']['value']) ){
 }
 if( !empty($requestData['columns'][3]['search']['value']) ){  
 	$sql.=" AND price LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
+}
+if( !empty($requestData['columns'][4]['search']['value']) ){  
+	$sql.=" AND available LIKE '%".$requestData['columns'][4]['search']['value']."%' ";
 }
 
 
@@ -60,7 +63,8 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData[] = $row["name"];
 	$nestedData[] = $row["brand"];
 	$nestedData[] = $row["price"];
-	$nestedData[] = '<button class="order_product btn btn-info">Order</button>';
+	$nestedData[] = $row["available"];
+	$nestedData[] = '<button class="product_edit btn btn-warning">Edit</button>';
 	
 	$data[] = $nestedData;
 }
