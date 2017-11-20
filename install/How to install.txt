@@ -1,0 +1,17 @@
+- copy the application folder into c://xampp/htdocs/
+- create database named 'practice_db'
+- import practice_db.sql to that database 
+- open browser and go to 'localhost/sita-v2/'
+
+
+admin login: 
+username: admin
+password: admin
+
+
+customer login: 
+username: arif
+password: arif123
+
+
+[Note: If any error occurs then check and update database configuration in 'config_2.php']
