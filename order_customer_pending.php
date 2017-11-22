@@ -44,6 +44,70 @@ if($_SESSION['type']=='admin'){
 		
 		$("#order_customer_pending").on("click", "td button", function(e) {
 			
+			var value = $(this).text();
+			//alert(value);
+			if(value == 'Update'){
+				// code for updating order quantity
+				var quantity = $(this).parent().prev().text();
+				var date_of_order = $(this).parent().prev().prev().text();
+				var product = $(this).parent().prev().prev().prev().text();
+				var order_id = $(this).parent().prev().prev().prev().prev().text();
+				//alert(order_id);
+
+				$('#order_id').val(order_id);
+				$('#order_product_name').val(product);
+				$('#date_of_order').val(date_of_order);
+				$('#order_quantity').val(quantity);
+
+				$('#modal_order_update').modal('show');
+
+			}else{
+				// code for cancelling order
+				var ans = confirm("Are you sure to cancel your order?");
+				if (ans == true) {
+				    //alert('Order cancelled');
+				    var order_id = $(this).parent().prev().prev().prev().prev().text();
+				    //alert(id);
+
+				    $.ajax({
+						method: "POST",
+					    url : "order_cancel_backend_customer.php",
+					    data : {order_id:order_id},
+					    dataType: 'html',
+					    success: function(data, textStatus, jqXHR)
+					    {
+					        //data = response from server
+					        console.log(data);
+					        if(data=='valid'){
+					        	//$('#flash-success').show();
+					        	$('#flash-order-cancel').show();
+					        	dataTable.ajax.reload(null, false);
+					        }else{
+					        	//nothin to do
+					        }
+					        
+					        setTimeout(function () {
+						        //window.location.reload();
+						        $('#flash-order-cancel').hide();
+						    }, 3000);
+					    },
+					    error: function (jqXHR, textStatus, errorThrown)
+					    {
+					 		//alert('Error');
+					 		$('#flash-error').show();
+					        setTimeout(function () {
+						        //window.location.reload();
+						        $('#flash-error').hide();
+						    }, 3000);
+					    }
+					});
+
+
+				} else {
+				    // do nothing 
+				}
+			}
+
 			//var available = $(this).parent().prev().text();
 			// var price = $(this).parent().prev().text();
 			// var brand = $(this).parent().prev().prev().text();
@@ -59,7 +123,45 @@ if($_SESSION['type']=='admin'){
 			//dataTable.ajax.reload(null, false);
 		});
 
-		
+		$("#order_update_confirm").on("click", function(e) {
+			//alert('clicked');
+			var order_id = $('#order_id').val();
+			var quantity = $('#order_quantity').val();
+			$.ajax({
+				method: "POST",
+			    url : "order_update_backend_customer.php",
+			    data : {order_id:order_id, quantity:quantity},
+			    dataType: 'html',
+			    success: function(data, textStatus, jqXHR)
+			    {
+			        //data = response from server
+			        console.log(data);
+			        if(data=='valid'){
+			        	//$('#flash-success').show();
+			        	$('#flash-order-update').show();
+			        	dataTable.ajax.reload(null, false);
+			        }else{
+			        	//nothin to do
+			        	$('#flash-error').show();
+			        }
+			        
+			        setTimeout(function () {
+				        //window.location.reload();
+				        $('#flash-order-update').hide();
+				        $('#flash-error').hide();
+				    }, 3000);
+			    },
+			    error: function (jqXHR, textStatus, errorThrown)
+			    {
+			 		//alert('Error');
+			 		$('#flash-error').show();
+			        setTimeout(function () {
+				        //window.location.reload();
+				        $('#flash-error').hide();
+				    }, 3000);
+			    }
+			});
+		});
 		
 		
 	} );
@@ -76,39 +178,40 @@ if($_SESSION['type']=='admin'){
 	<div class="alert alert-danger" id="flash-error" hidden>
 		<strong>Opss.. There was an error! Try again with valid input</strong>
 	</div>
-
 	<div class="alert alert-success" id="flash-product-ordered" hidden>
 	    <strong>Product has been Ordered Successfully!</strong>
 	</div>
+	<div class="alert alert-danger" id="flash-order-cancel" hidden>
+	    <strong>Order has been cancelled!</strong>
+	</div>
+	<div class="alert alert-success" id="flash-order-update" hidden>
+	    <strong>Order has been Updated!</strong>
+	</div>
 	
 
-	<div id="myModal3" class="modal fade" role="dialog">
+	<div id="modal_order_update" class="modal fade" role="dialog">
 	    <div class="modal-dialog">
 
-		    <!-- Modal for edit form-->
+		    <!-- Modal for updating order quantity-->
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Order Product Confirmation</h4>
+		        <h4 class="modal-title">Update Order</h4>
 		      </div>
 		      <div class="modal-body">
 		        <p>Please input the quantity.</p>
 		        <form>
-		        	<div class="form-group" hidden>
-				    	<label>Product Id:</label>
-				    	<input type="text" class="form-control" id="order_product_id" name="order_product_id">
+		        	<div class="form-group">
+				    	<label>Order Id:</label>
+				    	<input disabled type="text" class="form-control" id="order_id" name="order_id">
 				    </div>
 		        	<div class="form-group">
-				    	<label>Product Name:</label>
+				    	<label>Product:</label>
 				    	<input disabled type="text" class="form-control" id="order_product_name" name="order_product_name">
 				    </div>
 				    <div class="form-group">
-				    	<label>Brand:</label>
-				    	<input disabled type="text" class="form-control" id="order_product_brand" name="order_product_brand">
-				    </div>
-				    <div class="form-group">
-				    	<label>Price:</label>
-				    	<input disabled type="text" class="form-control" id="order_product_price" name="order_product_price">
+				    	<label>Date of Order:</label>
+				    	<input disabled type="text" class="form-control" id="date_of_order" name="date_of_order">
 				    </div>
 				    <div class="form-group">
 				    	<label>Quantity:</label>
@@ -117,7 +220,7 @@ if($_SESSION['type']=='admin'){
 		        </form>
 		      </div>
 		      <div class="modal-footer">
-		      	<button type="button" id="product_order_confirm" class="btn btn-success" data-dismiss="modal">Confirm</button>
+		      	<button type="button" id="order_update_confirm" class="btn btn-success" data-dismiss="modal">Update</button>
 		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 		      </div>
 		    </div>
@@ -142,7 +245,7 @@ if($_SESSION['type']=='admin'){
 		<thead>
 			<tr>
 				<td><input type="text" data-column="0"  class="search-input-text"></td>
-				<td><input type="text" data-column="1"  class="search-input-text"></td>
+				<td><input type="text" data-column="1"  class="search-input-text" hidden></td>
 				<td><input type="text" data-column="2"  class="search-input-text"></td>
 				<td><input type="text" data-column="3"  class="search-input-text"></td>
 				

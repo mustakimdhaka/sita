@@ -24,9 +24,9 @@ include('link_bootstrap.php');
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">My Orders <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="order_customer_pending.php">Pending</a></li>
-            <li><a href="#">Processing</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Cancelled</a></li>
+            <li><a href="order_customer_processing.php">Processing</a></li>
+            <li><a href="order_customer_delivered.php">Delivered</a></li>
+            <li><a href="order_customer_cancelled.php">Cancelled</a></li>
           </ul>
         </li>
         <li><a href="orders.php">My Orders(old)</a></li>

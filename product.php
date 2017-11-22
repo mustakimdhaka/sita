@@ -125,7 +125,7 @@ if($_SESSION['type']=='admin'){
 	<div id="myModal3" class="modal fade" role="dialog">
 	    <div class="modal-dialog">
 
-		    <!-- Modal for edit form-->
+		    <!-- Modal for Product order Confirmation -->
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
