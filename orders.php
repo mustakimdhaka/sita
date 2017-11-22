@@ -9,7 +9,7 @@ if(!isset($_SESSION['username'])){
 
 if($_SESSION['type']=='admin'){
 	include("menu_admin_2.php");
-	echo "<h2>Hello Admin</h2>";
+	//echo "<h2>Hello Admin</h2>";
 }else{
 	include("menu_customer.php");
 	//echo "<h2>Hello Customer</h2>";
@@ -34,7 +34,7 @@ if($_SESSION['type']=='admin'){
 					    <tr><th>Order Id</th><th>Product</th><th>Date of Order</th><th>Quantity</th><th>Order Status</th><th>Action</th></tr>
 					    
 					    <?php 
-					    	$stmt = $conn->prepare("SELECT * FROM orders where customer_id=?");
+					    	$stmt = $conn->prepare("SELECT * FROM orders where user_id=?");
 					    	$stmt->bindParam(1, $_SESSION['id']);    // id of customer
 							$stmt->execute();
 							$rows = $stmt->fetchAll();

@@ -1,6 +1,7 @@
 <?php 
 include("layout.php");
 include("config.php");
+include('link_bootstrap.php');
 ?>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -20,7 +21,15 @@ include("config.php");
       <ul class="nav navbar-nav">
         <li><a href="index.php">Home <span class="sr-only"></span></a></li>
         <li><a href="product.php">Products</a></li>
-        <li><a href="orders.php">My Orders</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">My Orders <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="order_customer_pending.php">Pending</a></li>
+            <li><a href="order_customer_processing.php">Processing</a></li>
+            <li><a href="order_customer_delivered.php">Delivered</a></li>
+            <li><a href="order_customer_cancelled.php">Cancelled</a></li>
+          </ul>
+        </li>
+        <li><a href="orders.php">My Orders(old)</a></li>
         <li><a href="customer_profile.php">My Profile</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
