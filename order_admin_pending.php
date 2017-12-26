@@ -18,60 +18,70 @@ if($_SESSION['type']=='admin'){
 
 <script>
 	$(document).ready(function() {
-		var dataTable = $('#order_customer_pending').DataTable( {
+		var dataTable = $('#order_admin_pending').DataTable( {
 			"processing": true,
 			"serverSide": true,
 			"ajax":{
-				url :"data_order_customer_pending.php", // json datasource
+				url :"data_order_admin_pending.php", // json datasource
 				type: "post",  // method  , by default get
 				
 				error: function(){  // error handling
-					$(".order_customer_pending-error").html("");
-					$("#order_customer_pending").append('<tbody class="order_customer_pending-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-					$("#order_customer_pending_processing").css("display","none");
+					$(".order_admin_pending-error").html("");
+					$("#order_admin_pending").append('<tbody class="order_admin_pending-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+					$("#order_admin_pending_processing").css("display","none");
 					
 				}
 			},
 			
 		} );
 		
-		$("#order_customer_pending_filter").css("display","none");  // hiding global search box
+		$("#order_admin_pending_filter").css("display","none");  // hiding global search box
 		$('.search-input-text').on( 'keyup', function () {   // for text boxes
 			var i =$(this).attr('data-column');  // getting column index
 			var v =$(this).val();  // getting search input value
 			dataTable.columns(i).search(v).draw();
 		} );
 		
-		$("#order_customer_pending").on("click", "td button", function(e) {
+		$("#order_admin_pending").on("click", "td button", function(e) {
 			
 			var value = $(this).text();
 			//alert(value);
 			if(value == 'Update'){
+				//alert('clicked');
 				// code for updating order quantity
 				var quantity = $(this).parent().prev().text();
 				var date_of_order = $(this).parent().prev().prev().text();
-				var product = $(this).parent().prev().prev().prev().text();
-				var order_id = $(this).parent().prev().prev().prev().prev().text();
+				var user_id = $(this).parent().prev().prev().prev().text();
+				var product = $(this).parent().prev().prev().prev().prev().text();
+				var order_id = $(this).parent().prev().prev().prev().prev().prev().text();
 				//alert(order_id);
 
 				$('#order_id').val(order_id);
 				$('#order_product_name').val(product);
+				$('#order_customer_name').val(user_id);
 				$('#date_of_order').val(date_of_order);
 				$('#order_quantity').val(quantity);
 
 				$('#modal_order_update').modal('show');
 
 			}else{
+				// (order cancel function has been tranferred to update dropdown so this section is no use now thats why its inactive) 
+
+				/*
 				// code for cancelling order
-				var ans = confirm("Are you sure to cancel your order?");
+				// find product name 
+				var customer_name = $(this).parent().prev().prev().prev().text(); 
+				var product_name = $(this).parent().prev().prev().prev().prev().text();
+				var message = "Are you sure to delete order for "+product_name+" by "+customer_name+" ?";
+				var ans = confirm(message);
 				if (ans == true) {
 				    //alert('Order cancelled');
-				    var order_id = $(this).parent().prev().prev().prev().prev().text();
-				    //alert(id);
+				    var order_id = $(this).parent().prev().prev().prev().prev().prev().text();
+				    //alert(order_id);
 
 				    $.ajax({
 						method: "POST",
-					    url : "order_cancel_backend_customer.php",
+					    url : "order_cancel_backend_admin.php",
 					    data : {order_id:order_id},
 					    dataType: 'html',
 					    success: function(data, textStatus, jqXHR)
@@ -100,24 +110,29 @@ if($_SESSION['type']=='admin'){
 						        $('#flash-error').hide();
 						    }, 3000);
 					    }
-					});
+					}); 
 
 
 				} else {
 				    // do nothing 
 				}
+				*/
 			}
 
+			
 		});
 
 		$("#order_update_confirm").on("click", function(e) {
 			//alert('clicked');
 			var order_id = $('#order_id').val();
-			var quantity = $('#order_quantity').val();
+			var order_status = $('#order_status option:selected').val();
+			//alert(order_status);
+
+			 
 			$.ajax({
 				method: "POST",
-			    url : "order_update_backend_customer.php",
-			    data : {order_id:order_id, quantity:quantity},
+			    url : "order_update_backend_admin.php",
+			    data : {order_id:order_id, order_status:order_status},
 			    dataType: 'html',
 			    success: function(data, textStatus, jqXHR)
 			    {
@@ -148,6 +163,7 @@ if($_SESSION['type']=='admin'){
 				    }, 3000);
 			    }
 			});
+			
 		});
 		
 		
@@ -186,7 +202,7 @@ if($_SESSION['type']=='admin'){
 		        <h4 class="modal-title">Update Order</h4>
 		      </div>
 		      <div class="modal-body">
-		        <p>Please input the quantity.</p>
+		        <p>Please provide correct input.</p>
 		        <form>
 		        	<div class="form-group">
 				    	<label>Order Id:</label>
@@ -197,12 +213,25 @@ if($_SESSION['type']=='admin'){
 				    	<input disabled type="text" class="form-control" id="order_product_name" name="order_product_name">
 				    </div>
 				    <div class="form-group">
+				    	<label>Customer:</label>
+				    	<input disabled type="text" class="form-control" id="order_customer_name" name="order_customer_name">
+				    </div>
+				    <div class="form-group">
 				    	<label>Date of Order:</label>
 				    	<input disabled type="text" class="form-control" id="date_of_order" name="date_of_order">
 				    </div>
 				    <div class="form-group">
 				    	<label>Quantity:</label>
-				    	<input type="text" class="form-control" id="order_quantity" name="order_quantity">
+				    	<input disabled type="text" class="form-control" id="order_quantity" name="order_quantity">
+				    </div>
+				    <div class="form-group">
+				    	<label>Status:</label>
+				    	<select class="form-control" id='order_status'>
+							<option value="pending">Pending</option>
+							<option value="processing">Processing</option>
+							<option value="delivered">Delivered</option>
+							<option value="cancelled">Cancelled</option>
+						</select>
 				    </div>
 		        </form>
 		      </div>
@@ -217,12 +246,13 @@ if($_SESSION['type']=='admin'){
 
 
 	
-	<div style="text-align: center"><h3>My Pending Orders</h3></div>
-	<table id="order_customer_pending" class="table table-striped table-bordered">
+	<div style="text-align: center"><h3>Pending Orders</h3></div>
+	<table id="order_admin_pending" class="table table-striped table-bordered">
 		<thead>
 			<tr>
 				<th>Order Id</th>
 				<th>Product</th>
+				<th>Customer</th>
 				<th>Date of Order</th>
 				<th>Quantity</th>
 				
@@ -233,8 +263,9 @@ if($_SESSION['type']=='admin'){
 			<tr>
 				<td><input type="text" data-column="0"  class="search-input-text"></td>
 				<td><input type="text" data-column="1"  class="search-input-text" hidden></td>
-				<td><input type="text" data-column="2"  class="search-input-text"></td>
-				<td><input type="text" data-column="3"  class="search-input-text"></td>
+				<td><input type="text" data-column="2"  class="search-input-text" hidden></td>
+				<td><input type="text" data-column="3"  class="search-input-text" hidden></td>
+				<td><input type="text" data-column="4"  class="search-input-text"></td>
 				
 			</tr>
 		</thead>

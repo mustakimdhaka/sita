@@ -21,7 +21,15 @@ include("config.php");
         <li><a href="admin.php">Home <span class="sr-only"></span></a></li>
         <li><a href="product_admin.php">Products</a></li>
         <li><a href="#">Customers</a></li>
-        <li><a href="orders_admin.php">Orders</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Orders<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="order_admin_pending.php">Pending</a></li>
+            <li><a href="#">Processing</a></li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Cancelled</a></li>
+          </ul>
+        </li>
+        <li><a href="orders_admin.php">Orders(old)</a></li>
         <li><a href="#">Users</a></li>
         
       </ul>
