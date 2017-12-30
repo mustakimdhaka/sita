@@ -11,7 +11,7 @@ $columns = array(
 // datatable column index  => database column name
 	0 =>'id', 
 	1 =>'product_id',
-	2=> 'customer_id',
+	2=> 'user_id',
 	3=> 'date_of_order',
 	4=> 'quantity',
 	5=> 'status',
@@ -41,11 +41,17 @@ if( !empty($requestData['columns'][0]['search']['value']) ){
 if( !empty($requestData['columns'][1]['search']['value']) ){  
 	$sql.=" AND product_id LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
 }
+if( !empty($requestData['columns'][1]['search']['value']) ){  
+	$sql.=" AND user_id LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
+}
 if( !empty($requestData['columns'][2]['search']['value']) ){  
 	$sql.=" AND date_of_order LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
 }
 if( !empty($requestData['columns'][3]['search']['value']) ){  
 	$sql.=" AND quantity LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
+}
+if( !empty($requestData['columns'][4]['search']['value']) ){  
+	$sql.=" AND status LIKE '%".$requestData['columns'][4]['search']['value']."%' ";
 }
 
 

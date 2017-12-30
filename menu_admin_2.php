@@ -24,9 +24,9 @@ include("config.php");
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Orders<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="order_admin_pending.php">Pending</a></li>
-            <li><a href="#">Processing</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Cancelled</a></li>
+            <li><a href="order_admin_processing.php">Processing</a></li>
+            <li><a href="order_admin_delivered.php">Delivered</a></li>
+            <li><a href="order_admin_cancelled.php">Cancelled</a></li>
           </ul>
         </li>
         <li><a href="orders_admin.php">Orders(old)</a></li>

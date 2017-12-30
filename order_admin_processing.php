@@ -18,31 +18,31 @@ if($_SESSION['type']=='admin'){
 
 <script>
 	$(document).ready(function() {
-		var dataTable = $('#order_admin_pending').DataTable( {
+		var dataTable = $('#order_admin_processing').DataTable( {
 			"processing": true,
 			"serverSide": true,
 			"ajax":{
-				url :"data_order_admin_pending.php", // json datasource
+				url :"data_order_admin_processing.php", // json datasource
 				type: "post",  // method  , by default get
 				
 				error: function(){  // error handling
-					$(".order_admin_pending-error").html("");
-					$("#order_admin_pending").append('<tbody class="order_admin_pending-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-					$("#order_admin_pending_processing").css("display","none");
+					$(".order_admin_processing-error").html("");
+					$("#order_admin_processing").append('<tbody class="order_admin_processing-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+					$("#order_admin_processing_processing").css("display","none");
 					
 				}
 			},
 			
 		} );
 		
-		$("#order_admin_pending_filter").css("display","none");  // hiding global search box
+		$("#order_admin_processing_filter").css("display","none");  // hiding global search box
 		$('.search-input-text').on( 'keyup', function () {   // for text boxes
 			var i =$(this).attr('data-column');  // getting column index
 			var v =$(this).val();  // getting search input value
 			dataTable.columns(i).search(v).draw();
 		} );
 		
-		$("#order_admin_pending").on("click", "td button", function(e) {
+		$("#order_admin_processing").on("click", "td button", function(e) {
 			
 			var value = $(this).text();
 			//alert(value);
@@ -176,8 +176,8 @@ if($_SESSION['type']=='admin'){
 				    <div class="form-group">
 				    	<label>Status:</label>
 				    	<select class="form-control" id='order_status'>
+				    		<option value="processing">Processing</option>
 							<option value="pending">Pending</option>
-							<option value="processing">Processing</option>
 							<option value="delivered">Delivered</option>
 							<option value="cancelled">Cancelled</option>
 						</select>
@@ -195,8 +195,8 @@ if($_SESSION['type']=='admin'){
 
 
 	
-	<div style="text-align: center"><h3>Pending Orders</h3></div>
-	<table id="order_admin_pending" class="table table-striped table-bordered">
+	<div style="text-align: center"><h3>Processing Orders</h3></div>
+	<table id="order_admin_processing" class="table table-striped table-bordered">
 		<thead>
 			<tr>
 				<th>Order Id</th>

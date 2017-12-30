@@ -156,7 +156,7 @@ if($_SESSION['type']=='admin'){
 
 		
 <?php
-	include('link_bootstrap.php'); 
+	//include('link_bootstrap.php'); 
 ?>
 		
 		

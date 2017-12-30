@@ -42,13 +42,16 @@ if( !empty($requestData['columns'][1]['search']['value']) ){
 	$sql.=" AND product_id LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
 }
 if( !empty($requestData['columns'][2]['search']['value']) ){  
-	$sql.=" AND date_of_order LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
+	$sql.=" AND user_id LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
 }
 if( !empty($requestData['columns'][3]['search']['value']) ){  
-	$sql.=" AND quantity LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
+	$sql.=" AND date_of_order LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
 }
 if( !empty($requestData['columns'][4]['search']['value']) ){  
 	$sql.=" AND quantity LIKE '%".$requestData['columns'][4]['search']['value']."%' ";
+}
+if( !empty($requestData['columns'][5]['search']['value']) ){  
+	$sql.=" AND status LIKE '%".$requestData['columns'][5]['search']['value']."%' ";
 }
 
 
