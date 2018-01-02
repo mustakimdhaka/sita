@@ -1,6 +1,6 @@
 <?php 
 include("layout.php");
-include("config.php");
+include("config_2.php");
 
 session_start();
 if(!isset($_SESSION['username'])){

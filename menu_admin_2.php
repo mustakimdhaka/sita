@@ -29,7 +29,6 @@ include("config.php");
             <li><a href="order_admin_cancelled.php">Cancelled</a></li>
           </ul>
         </li>
-        <li><a href="orders_admin.php">Orders(old)</a></li>
         <li><a href="#">Users</a></li>
         
       </ul>

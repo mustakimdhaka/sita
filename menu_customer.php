@@ -29,7 +29,6 @@ include('link_bootstrap.php');
             <li><a href="order_customer_cancelled.php">Cancelled</a></li>
           </ul>
         </li>
-        <li><a href="orders.php">My Orders(old)</a></li>
         <li><a href="customer_profile.php">My Profile</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
