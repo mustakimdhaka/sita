@@ -1,6 +1,7 @@
 <?php
 include("layout.php");
 include("config.php");
+session_start();
 ?>
 
 <div class="container"><br><br>
@@ -9,7 +10,13 @@ include("config.php");
 		<div class="col-md-4">
 			<div class="panel panel-default">
 		    <div class="panel-body">
-			    <h2 align="center">User Login</h2><br>
+			    <h2 align="center">Order Tracking System</h2>
+			    <?php
+			    	if(isset($_SESSION['new_profile'])){
+			    		echo "<h4 style='color:green'>Profile has been created successfully!</h4><br>";
+			    		session_unset();
+			    	}  
+			    ?>
 			    <form method="POST">
 				    <div class="form-group">
 				    	<label for="user">Username:</label>
@@ -23,10 +30,10 @@ include("config.php");
 
 			    	<div class="row">
 			    		<div class="col-md-4">
-			    			<button type="submit" class="btn btn-primary">Submit</button>
+			    			<button type="submit" class="btn btn-primary">Login</button>
 			    		</div>
 			    		<div class="col-md-8">
-			    			<a href="#">New Customer? Sign Up!</a>
+			    			<a href="signup.php">New Customer? Sign Up!</a>
 			    		</div>
 			    	</div>
 
@@ -39,7 +46,7 @@ include("config.php");
 							$stmt->execute();
 							$row = $stmt->fetch();
 							if($row!=null){
-								session_start();
+								//session_start();
 								$_SESSION['id'] = $row['id'];
 								$_SESSION['username'] = $row['username'];
 								$_SESSION['password'] = $row['password'];
@@ -67,3 +74,7 @@ include("config.php");
 		<div class="col-md-4"></div>
 	</div>
 </div>
+
+<?php 
+	include('footer.php')
+?>

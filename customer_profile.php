@@ -50,6 +50,7 @@ $row = $stmt->fetch();
 		    	changeMonth: true,
 		    	changeYear: true,
 		    	yearRange: "1901:2099",
+		    	dateFormat: 'yy-mm-dd',
 		    });
 		});
 		// ********* End of Date Picker **********************
@@ -169,6 +170,7 @@ $row = $stmt->fetch();
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
 		        <h4 class="modal-title">Update Personal Information</h4>
 		      </div>
+		      
 		      <div class="modal-body">
 		        <p>Please provide correct input.</p>
 		        <form action=''>
@@ -205,6 +207,7 @@ $row = $stmt->fetch();
 				    </div>
 		        </form>
 		      </div>
+
 		      <div class="modal-footer">
 		      	<button type="button" id="profile_edit_confirm" class="btn btn-success" data-dismiss="modal">Update</button>
 		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
